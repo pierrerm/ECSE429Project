@@ -65,21 +65,6 @@ static int LUPinverse(int size, int P[size], double LU[size][size],\
             }
         }
 
-        // printf("\n\nThe to-be-inverted matrix 'A':\n");
-        // for(int i = 0; i < matrixSize; i++)
-        // {
-        //   for(int j = 0; j < matrixSize; j++) printf("\t%E", (float)A[i][j]);
-        //   printf("\n");
-        // }
-        //
-        // if(LUPdecompose(matrixSize, A, P) < 0) return -1;
-        // printf("\n\nThe LUP decomposition of 'A' is successful.\nPivot:\n");
-        // for(int i = 0; i < matrixSize; i++)
-        // {
-        //   for(int j = 0; j < matrixSize; j++) printf("\t%d", j == P[i] ? 1:0);
-        //   printf("\n");
-        // }
-
         if(LUPinverse(matrixSize, P, A, B, X, Y) < 0) return -1;
         printf("\n\nMatrix inversion successful.\nInverse of A:\n");
         fflush( stdout );
