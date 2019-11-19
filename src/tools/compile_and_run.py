@@ -17,13 +17,14 @@ class CVirtualMachine:
         for option in self.options:
             self.compiler_skeleton += " {}".format(option)
         cmd = self.compiler_skeleton.format(self.compiler, source, target_name)
-        # subprocess.call(cmd, stdin=None, stdout=None, stderr=None, shell=False)
+        print("Running command {}".format(cmd))
         subprocess.run([self.compiler, source, "-o", target_name] + self.options)
 
     def run(self, target_name, input):
         cmd = "./{} {}".format(target_name, input)
-        subprocess.call(cmd, stdin=None, stdout=None, stderr=None, shell=False)
-        # subprocess.run(cmd)
+        print("Running command {}".format(cmd))
+        result = subprocess.run(['./{}'.format(target_name)] + input, encoding='utf8', stdout=subprocess.PIPE)
+        return result.stdout
 
 
 def main():
@@ -33,7 +34,7 @@ def main():
     testvm = CVirtualMachine(compiler, options)
     path_sut = "../sut/Matrix_inverse_LUP.c"
     testvm.compile(path_sut, "matinv")
-    testvm.run("matinv", "1 2 3 4 5 6 7 8 9")
+    testvm.run("matinv", ['1', '2', '3', '4', '5', '6', '7', '8', '9'])
 
 
 if __name__ == '__main__':
