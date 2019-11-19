@@ -24,7 +24,21 @@ class CVirtualMachine:
         cmd = "./{} {}".format(target_name, input)
         print("Running command {}".format(cmd))
         result = subprocess.run(['./{}'.format(target_name)] + input, encoding='utf8', stdout=subprocess.PIPE)
-        return result.stdout
+        result = self.__parser(result.stdout)
+        return result
+
+    def __parser(self, input):
+        lines = input.split("\n")
+        floats = lines[-1].split(" ")
+        matrix = []
+        for fl in floats:
+            fll = 0.0;
+            try:
+                fll = float(fl)
+            except ValueError:
+                continue
+            matrix.append(fll)
+        return matrix
 
 
 def main():
@@ -34,7 +48,8 @@ def main():
     testvm = CVirtualMachine(compiler, options)
     path_sut = "../sut/Matrix_inverse_LUP.c"
     testvm.compile(path_sut, "matinv")
-    testvm.run("matinv", ['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+    res = testvm.run("matinv", ['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+    print(res)
 
 
 if __name__ == '__main__':
