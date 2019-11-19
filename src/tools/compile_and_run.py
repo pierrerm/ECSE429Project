@@ -25,6 +25,7 @@ class CVirtualMachine:
         print("Running command {}".format(cmd))
         result = subprocess.run(['./{}'.format(target_name)] + input, encoding='utf8', stdout=subprocess.PIPE)
         result = self.__parser(result.stdout)
+        os.remove(target_name)
         return result
 
     def __parser(self, input):
