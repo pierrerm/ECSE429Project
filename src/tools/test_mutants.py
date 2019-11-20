@@ -19,16 +19,13 @@ def main():
     v = data.get('vectors')
     kill_mutant = []
     
-    for i in range(int(len(v) / 100)):
+    for i in range(int(len(v) / 10)):
         new_lst = [str(j) for sub in v[i] for j in sub]     
         res_sut = sut.run("sut", new_lst)
         res_mutant = mutant.run("mutant", new_lst)
 
         if res_sut != res_mutant:
             kill_mutant.append(i)
-            print(res_mutant)
-            print(res_sut)
-            print("------------")
 
     print(kill_mutant)
 

@@ -48,7 +48,7 @@ def main():
     testvm = CVirtualMachine(compiler, options)
     path_sut = "../sut/Matrix_inverse_LUP.c"
     testvm.compile(path_sut, "matinv")
-    res = testvm.run("matinv", ['1', '2', '3', '0', '1', '4', '5', '6', '0'])
+    res = testvm.run("matinv", ['2', '6', '7', '3', '12', '10', '11', '13', '14', '5', '15', '8', '16', '4', '9', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26'])
     print(res)
 
 
