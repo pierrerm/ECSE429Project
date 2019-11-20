@@ -28,6 +28,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 # include <float.h>
 # include <math.h>
 # include <stdlib.h>
+# define N 3
 
 
 /* This function performs LUP decomposition of the to-be-inverted matrix 'A'. It is
@@ -50,39 +51,31 @@ int main(int argc, const char* argv[])
 	int matrixSize = (int)sqrt(argc) + 1;
 	printf("matrix is of size %d\n", (matrixSize - 1));
 
-	if (matrixSize > 26) return -1;
-
 	// matrix inversion setup variables
 	int i, j, k;
-	double A[676];
-	int P[26];
-	// temporary spaces
-	double B[676];
-	double X[26];
-	double Y[26];
+	double A[(N + 1) * (N + 1)], A1[(N + 1) * (N + 1)], I[(N + 1) * (N + 1)];
+	int P[N + 1];
+	double B[(N + 1) * (N + 1)], X[N + 1], Y[N + 1];
 
 	int count = 1;
 
 	// Copy A_10 matric into A and A1
-	for (i = 1; i <= matrixSize; i++) for (j = 1; j <= matrixSize; j++) {
-		A[i * matrixSize + j] = atof(argv[count]);
+	for (i = 1; i <= N; i++) for (j = 1; j <= N; j++) {
+		A[i * (N + 1) + j] = A1[i * (N + 1) + j] = atof(argv[count]);
 		count++;
 	}
-
 	// Perform Lower-Upper-Pivot decomposition
-	if (LUPdecompose(matrixSize, A, P) < 0) return -1;
-
+	if (LUPdecompose(N + 1, A, P) < 0) return -1;
 	printf("The LUP decomposition of 'A' is successful.\n");
 	printf("------------------------------------------------------------\n");
-
 	// Compute inverse
-	if (LUPinverse(matrixSize, P, A, B, X, Y) < 0) return -1;
+	if (LUPinverse(N + 1, P, A, B, X, Y) < 0) return -1;
 
 	printf("Matrix inversion successful.\nInverse of A:\n");
 	printf("------------------------------------------------------------\n");
 
-	for (i = 1; i <= matrixSize; i++) for (j = 1; j <= matrixSize; j++)
-		printf("%f ", (float)A[i * matrixSize + j]);
+	for (i = 1; i <= N; i++) for (j = 1; j <= N; j++)
+		printf("%f ", (float)A[i * N + j]);
 
 	return 0;
 }
