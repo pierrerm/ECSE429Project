@@ -17,12 +17,12 @@ class CVirtualMachine:
         for option in self.options:
             self.compiler_skeleton += " {}".format(option)
         cmd = self.compiler_skeleton.format(self.compiler, source, target_name)
-        print("Running command {}".format(cmd))
+        #print("Running command {}".format(cmd))
         subprocess.run([self.compiler, source, "-o", target_name] + self.options)
 
     def run(self, target_name, input):
         cmd = "./{} {}".format(target_name, input)
-        print("Running command {}".format(cmd))
+        #print("Running command {}".format(cmd))
         result = subprocess.run(['./{}'.format(target_name)] + input, encoding='utf8', stdout=subprocess.PIPE)
         result = self.__parser(result.stdout)
         return result
