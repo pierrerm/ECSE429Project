@@ -84,12 +84,6 @@ int main(int argc, const char* argv[])
 	for (i = 1; i <= matrixSize; i++) for (j = 1; j <= matrixSize; j++)
 		printf("%f ", (float)A[i * matrixSize + j]);
 
-	free(A);
-	free(P);
-	free(B);
-	free(X);
-	free(Y);
-
 	return 0;
 }
 
