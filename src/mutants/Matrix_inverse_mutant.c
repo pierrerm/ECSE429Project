@@ -50,62 +50,45 @@ int main(int argc, const char* argv[])
 	int matrixSize = (int)sqrt(argc) + 1;
 	printf("matrix is of size %d\n", (matrixSize - 1));
 
+	if (matrixSize > 26) return -1;
+
 	// matrix inversion setup variables
 	int i, j, k;
-	double A[matrixSize * matrixSize];
-	double A1[matrixSize * matrixSize];
-	double I[matrixSize * matrixSize];
-	int P[matrixSize];
+	double A[676];
+	int P[26];
 	// temporary spaces
-	double B[matrixSize * matrixSize];
-	double X[matrixSize];
-	double Y[matrixSize];
+	double B[676];
+	double X[26];
+	double Y[26];
 
 	int count = 1;
 
 	// Copy A_10 matric into A and A1
 	for (i = 1; i <= matrixSize; i++) for (j = 1; j <= matrixSize; j++) {
-		A[i * matrixSize + j] = A1[i * matrixSize + j] = atof(argv[count]);
+		A[i * matrixSize + j] = atof(argv[count]);
 		count++;
 	}
 
 	// Perform Lower-Upper-Pivot decomposition
 	if (LUPdecompose(matrixSize, A, P) < 0) return -1;
+
 	printf("The LUP decomposition of 'A' is successful.\n");
 	printf("------------------------------------------------------------\n");
+
 	// Compute inverse
 	if (LUPinverse(matrixSize, P, A, B, X, Y) < 0) return -1;
-	printf("Matrix inversion successful.\n");
+
+	printf("Matrix inversion successful.\nInverse of A:\n");
 	printf("------------------------------------------------------------\n");
 
 	for (i = 1; i <= matrixSize; i++) for (j = 1; j <= matrixSize; j++)
 		printf("%f ", (float)A[i * matrixSize + j]);
 
-	/* double* A = new double[matrixSize * matrixSize];
-	double* A1 = new double[matrixSize * matrixSize];
-	double* I = new double[matrixSize * matrixSize];
-	int* P = new int[matrixSize];
-	//Temporary spaces.
-	double* B = new double[matrixSize * matrixSize];
-	double* X = new double[matrixSize];
-	double* Y = new double[matrixSize];
-
-	int count = 1;
-
-	for (int i = 1; i < matrixSize; i++) {
-		for (int j = 1; j < matrixSize; j++) {
-			A[i * matrixSize + j] = A1[i * matrixSize + j] = atof(argv[count]);
-			count++;
-		}
-	}
-
-	if (LUPinverse(matrixSize, P, A, B, X, Y) < 0) return -1;
-	printf("\n\nMatrix inversion successful.\nInverse of A:\n");
-	fflush(stdout);
-	for (int j = 1; j < matrixSize; j++)
-	{
-		for (int i = 1; i < matrixSize; i++) printf("%f ", (float)A[i * matrixSize + j]);
-	} */
+	free(A);
+	free(P);
+	free(B);
+	free(X);
+	free(Y);
 
 	return 0;
 }
