@@ -18,7 +18,15 @@ class CVirtualMachine:
             self.compiler_skeleton += " {}".format(option)
         cmd = self.compiler_skeleton.format(self.compiler, source, target_name)
         #print("Running command {}".format(cmd))
-        subprocess.run([self.compiler, source, "-o", target_name] + self.options)
+        result = subprocess.run([self.compiler, source, "-o", target_name] + self.options, stdout=subprocess.PIPE)
+
+        bool = result.returncode == 0
+        if bool:
+            print('Compilation succesful')
+            return True
+        else:
+            print('Compilation failed')
+            return False
 
     def run(self, target_name, input):
         cmd = "./{} {}".format(target_name, input)
