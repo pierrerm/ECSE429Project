@@ -86,7 +86,7 @@ def main():
     threads = []
     subset_size = int(tester.mut_numbers / args.mult)
     #for i in range(0, tester.mut_numbers, subset_size):
-    for i in range(5):    
+    for i in range(2):    
         endpoint = i + subset_size
         if endpoint > tester.mut_numbers:
             endpoint = tester.mut_numbers - 1
@@ -98,13 +98,13 @@ def main():
     for thread in threads:
         thread.join()
 
-    for i in range(40):
+    for i in range(len(dict_managers)):
         #print(dict_managers[i])
-        tester.mutant_lib["mutants"][i] = dict_managers[i]
-        print(tester.mutant_lib["mutants"][i])
+        tester.mutant_lib["mutants"][i] = dict_managers[i].copy()
+        #print(tester.mutant_lib["mutants"][i])
 
     #print(tester.mutant_lib)
-    #tester.output_library(args.destination)
+    tester.output_library(args.destination)
 
 
 if __name__ == '__main__':
