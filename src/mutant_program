@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Generating simulation file"
+cd tools/
+python3.6 gen_simulation_file.py > output.txt
+rm matinv
+cd ..
+echo "Simulation file simulation_file.json created successfully"
+
+echo "Creating mutant library"
+python3.6 tools/create_mutant_library.py sut/Matrix_inverse_LUP.c --dest mutants.lib >> output.txt
+echo "Mutant library mutants.lib created successfully"
+
+echo "Injecting mutants"
+python3.6 tools/inject_mutants.py mutants.lib sut/Matrix_inverse_LUP.c --dest mutants/ >> output.txt
+echo "Mutants injected in mutants/"
+
+echo "Finding vectors"
+python3.6 tools/test_thread.py mutants.lib simulation_file.json mutants/ mutant_vectors.lib --mult 10 >> output.txt
+echo "Vector library mutant_vectors.lib created successfully"

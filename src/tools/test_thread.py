@@ -72,7 +72,7 @@ def main():
     parser.add_argument('mutant_location', help='folder where mutated programs are contained')
     parser.add_argument('destination',  help='destination file for vectors')
 
-    parser.add_argument('--mult', default=-1, type=int, help='Split the mutants and generate vectors side by side')
+    parser.add_argument('--mult', default=1, type=int, help='Split the mutants and generate vectors side by side')
     args = parser.parse_args()
     tester = MutantTester(args.library, args.mutant_location, args.vectors)
 
@@ -85,12 +85,11 @@ def main():
 
     threads = []
     subset_size = int(tester.mut_numbers / args.mult)
-    #for i in range(0, tester.mut_numbers, subset_size):
-    for i in range(2):    
+    for i in range(0, tester.mut_numbers, subset_size):
         endpoint = i + subset_size
         if endpoint > tester.mut_numbers:
             endpoint = tester.mut_numbers - 1
-        pro = multiprocessing.Process(target=tester.test_mutants_subset, args=[20 + i, 20 + i + 1, dict_managers])
+        pro = multiprocessing.Process(target=tester.test_mutants_subset, args=[i, endpoint, dict_managers])
         threads.append(pro)
 
     for thread in threads:
@@ -99,11 +98,8 @@ def main():
         thread.join()
 
     for i in range(len(dict_managers)):
-        #print(dict_managers[i])
         tester.mutant_lib["mutants"][i] = dict_managers[i].copy()
-        #print(tester.mutant_lib["mutants"][i])
 
-    #print(tester.mutant_lib)
     tester.output_library(args.destination)
 
 

@@ -33,7 +33,7 @@ def main():
         res = testvm.run("matinv", random_vector)
         simulation_vectors['vectors'].append((random_vector, res))
 
-    with open('simulation_file.json', 'w') as file:
+    with open('../simulation_file.json', 'w') as file:
         file.write(json.dumps(simulation_vectors))
 
 
